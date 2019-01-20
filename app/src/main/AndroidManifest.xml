@@ -11,8 +11,8 @@
         android:roundIcon="@mipmap/background"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".Activities.HomePage"></activity>
+        <activity android:name=".Activities.ProductByCategory"></activity>
+        <activity android:name=".Activities.HomePage" />
         <activity android:name=".Activities.Registration" />
         <activity android:name=".Activities.LoginActivity" />
         <activity android:name=".Activities.MainActivity">
