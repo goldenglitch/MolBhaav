@@ -1,4 +1,4 @@
-package com.ecommerce.molbhaav.controller;
+package com.ecommerce.molbhaav.Controller;
 
 import android.app.Application;
 
@@ -21,6 +21,5 @@ public class AppControl extends Application {
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(client).build();
         }
-        System.out.println("chk");
     }
 }

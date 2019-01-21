@@ -1,4 +1,4 @@
-package com.ecommerce.molbhaav.adapter;
+package com.ecommerce.molbhaav.Adapter;
 
 public class Adapter {
 }
