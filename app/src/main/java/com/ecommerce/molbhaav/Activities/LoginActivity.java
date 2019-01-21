@@ -84,31 +84,31 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
                     LoginRequest loginRequest = new LoginRequest();
-                    loginRequest.setName(ed.getText().toString());
-                    loginRequest.setEmailId(ed1.getText().toString());
+                    loginRequest.setPassword(ed1.getText().toString());
+                    loginRequest.setEmailId(ed.getText().toString());
                     Toast.makeText(LoginActivity.this, "" + ed.getText().toString(), Toast.LENGTH_SHORT).show();
                     iApi.login(loginRequest).enqueue(new Callback<LoginResponse>() {
                         @Override
                         public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-//                        if(response.isSuccessful()){
+                        if(response.isSuccessful()){
 
 
                             Intent intent = new Intent(LoginActivity.this, HomePage.class);
                             startActivity(intent);
-//                        SharedPreferences sharedPreferences= getSharedPreferences("package com.example.projectfinal;", Context.MODE_PRIVATE);
-//                        SharedPreferences.Editor editor=sharedPreferences.edit();
-//                        int i= response.body().getUserId();
-//                        editor.putInt("user",i);
-//                        Toast.makeText(LoginActivity.this, ""+sharedPreferences.getInt("user",0), Toast.LENGTH_SHORT).show();
-//                        editor.commit();
-//                        editor.apply();
+                        SharedPreferences sharedPreferences= getSharedPreferences("package com.example.projectfinal;", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor=sharedPreferences.edit();
+                        int i= response.body().getUserId();
+                        editor.putInt("user",i);
+                        Toast.makeText(LoginActivity.this, ""+sharedPreferences.getInt("user",0), Toast.LENGTH_SHORT).show();
+                        editor.commit();
+                        editor.apply();
 
 
-//                        }else{
-//                            Toast.makeText(LoginActivity.this, "Invalid Details", Toast.LENGTH_SHORT).show();
-//                            System.out.println("error");
+                        }else{
+                            Toast.makeText(LoginActivity.this, "Invalid Details", Toast.LENGTH_SHORT).show();
+                            System.out.println("error");
 
-//                        }
+                        }
                         }
 
                         @Override
