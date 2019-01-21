@@ -21,6 +21,7 @@ import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -40,11 +41,13 @@ public interface IApi {
     public Call<List<HomePageResponse>> getCategories();
 
     @GET("/products/findByCategory/{categoryId}")
+
     public Call<List<ProductDetailPriceAndCount>> productsByCategory(@Path("categoryId") String categoryId);
 
 
     @GET("/product/query")
     public Call<List<ProductDetailPriceAndCount>> searchProductsResult(@Query("queryText") String searchText);
+
 
 //    @GET("config.json")
 //    public Call<Object>
