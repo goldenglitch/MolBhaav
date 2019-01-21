@@ -47,11 +47,4 @@ public interface IApi {
 
     @GET("/product/query")
     public Call<List<ProductDetailPriceAndCount>> searchProductsResult(@Query("queryText") String searchText);
-
-    @GET("/product/query")
-    public Call<List<ProductDetailPriceAndCount>> searchProductsResult_(@Query("queryText") String searchText);
-
-
-
-
 }
