@@ -20,6 +20,7 @@ import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface IApi {
@@ -39,7 +40,12 @@ public interface IApi {
 
     @GET("/products/findByCategory/{categoryId}")
     public Call<List<ProductByCategory>> productsByCategory(@Path("categoryId") String categoryId);
+    @PUT("/users/editProfile")
+    public Call<SignInResponse> edit(@Body SignInResponse signInResponse);
 
+
+    @GET("users/profile/{userId}")
+    public Call<SignInResponse> getuser(@Path("userId") int userId);
 
 //    @GET("config.json")
 //    public Call<Object>
