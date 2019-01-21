@@ -20,13 +20,29 @@ public class ProductByCategoryAdapter extends RecyclerView.Adapter<ProductByCate
     List<String> productNameList;
     List<String> productImageUrlList;
     List<String> productUspList;
+    List<Integer> highestPriceList;
+    List<Integer> lowestPriceList;
+    List<Integer> merchantCountList;
 
-    public ProductByCategoryAdapter(List<String> productIdList, List<String> productNameList, List<String> productImageUrlList, List<String> productUspList) {
+
+//    public ProductByCategoryAdapter(List<String> productIdList, List<String> productNameList, List<String> productImageUrlList, List<String> productUspList) {
+//        this.productIdList = productIdList;
+//        this.productImageUrlList = productImageUrlList;
+//        this.productNameList = productNameList;
+//        this.productUspList = productUspList;
+//    }
+
+
+    public ProductByCategoryAdapter(List<String> productIdList, List<String> productNameList, List<String> productImageUrlList, List<String> productUspList,List<Integer> highestPriceList,List<Integer> lowestPriceList,List<Integer> merchantCountList) {
         this.productIdList = productIdList;
         this.productImageUrlList = productImageUrlList;
         this.productNameList = productNameList;
         this.productUspList = productUspList;
+        this.highestPriceList = highestPriceList;
+        this.lowestPriceList = lowestPriceList;
+        this.merchantCountList = merchantCountList;
     }
+
 
     class ProductByCategoryViewHolder extends RecyclerView.ViewHolder{
 
@@ -34,17 +50,21 @@ public class ProductByCategoryAdapter extends RecyclerView.Adapter<ProductByCate
         private TextView productId;
         private TextView productName;
         private TextView productUsp;
+        private TextView merchantCount;
+        private TextView priceRange;
 
         public ProductByCategoryViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.productimageView);
             productName = (TextView) itemView.findViewById(R.id.productName);
-            productUsp = itemView.findViewById(R.id.productPriceRange);
+            priceRange = itemView.findViewById(R.id.productPriceRange);
+            merchantCount = itemView.findViewById(R.id.merchantCount);
         }
 
-        public void bind(String name, String usp, String imageUrl){
+        public void bind(String name, String imageUrl, int merchantCount, int lowestPrice, int highestPrice){
             productName.setText(name);
-            productUsp.setText(usp);
+            priceRange.setText(lowestPrice + "-" + highestPrice);
+            this.merchantCount.setText(String.valueOf(merchantCount));
             Glide.with(imageView.getContext()).load(imageUrl).into(imageView);
         }
     }
@@ -60,7 +80,7 @@ public class ProductByCategoryAdapter extends RecyclerView.Adapter<ProductByCate
 
     @Override
     public void onBindViewHolder(@NonNull ProductByCategoryViewHolder productByCategoryViewHolder, int i) {
-        ((ProductByCategoryViewHolder)productByCategoryViewHolder).bind(productNameList.get(i), productUspList.get(i), productImageUrlList.get(i));
+        ((ProductByCategoryViewHolder)productByCategoryViewHolder).bind(productNameList.get(i), productImageUrlList.get(i), merchantCountList.get(i),lowestPriceList.get(i), highestPriceList.get(i));
     }
 
     @Override

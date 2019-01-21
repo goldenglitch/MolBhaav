@@ -1,20 +1,17 @@
 package com.ecommerce.molbhaav.Activities;
 
+import android.app.Activity;
 import android.app.SearchManager;
-import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.widget.SearchView;
 
-import com.ecommerce.molbhaav.Adapter.HomePageAdapter;
 import com.ecommerce.molbhaav.Adapter.ProductByCategoryAdapter;
 import com.ecommerce.molbhaav.Controller.IApi;
 import com.ecommerce.molbhaav.R;
-import com.ecommerce.molbhaav.Response.HomePageResponse.HomePageResponse;
+import com.ecommerce.molbhaav.Response.ParticularCategoryPageResponse.ProductByCategory;
 import com.ecommerce.molbhaav.Response.ProductDetailsWithPriceAndCount.ProductDetailPriceAndCount;
 
 import java.util.ArrayList;
@@ -27,8 +24,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ProductByCategory extends AppCompatActivity {
-
+public class SearchActivity extends Activity {
 
     private List<String> imageUrlList = new ArrayList<>();
     private List<String> nameList = new ArrayList<>();
@@ -38,31 +34,37 @@ public class ProductByCategory extends AppCompatActivity {
     private List<Integer> lowestPriceList = new ArrayList<>();
     private List<Integer> merchantCountList = new ArrayList<>();
 
-
-
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_product_by_category);
-        //System.out.println(getIntent().getStringExtra("categoryId"));
-
+        setContentView(R.layout.activity_search);
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        System.out.println("SearchActivity started");
+        Intent intent = getIntent();
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            doSearch(query);
+            System.out.println("SearchActivity Intent get");
+        }
+
+    }
+
+    public void doSearch(String query){
         OkHttpClient client = new OkHttpClient.Builder().build();
-//http://10.0.2.2:8000 or http://localhost:8000
-        final Retrofit retrofit = new Retrofit.Builder().baseUrl("http://demo2805796.mockable.io/")
+        //http://10.0.2.2:8000 or http://localhost:8000
+        final Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.177.7.118:8080")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client).build();
         IApi iApi = retrofit.create(IApi.class);
 
-        iApi.productsByCategory(getIntent().getStringExtra("categoryId")).enqueue(new Callback<List<ProductDetailPriceAndCount>>() {
+        iApi.searchProductsResult(query).enqueue(new Callback<List<ProductDetailPriceAndCount>>() {
             @Override
             public void onResponse(Call<List<ProductDetailPriceAndCount>> call, Response<List<ProductDetailPriceAndCount>> response) {
                 for(int i=0;i<response.body().size();i++) {
@@ -74,35 +76,25 @@ public class ProductByCategory extends AppCompatActivity {
                     lowestPriceList.add(response.body().get(i).getLowestPrice());
                     merchantCountList.add(response.body().get(i).getMerchantCount());
                 }
-                mAdapter = new ProductByCategoryAdapter(productIdList, nameList, imageUrlList, uspList,highestPriceList,lowestPriceList,merchantCountList);
+                mAdapter = new ProductByCategoryAdapter(productIdList, nameList, imageUrlList, uspList, highestPriceList, lowestPriceList, merchantCountList);
                 mRecyclerView.setAdapter(mAdapter);
 
             }
 
             @Override
             public void onFailure(Call<List<ProductDetailPriceAndCount>> call, Throwable t) {
-
+                System.out.println("Error while searching");
             }
         });
 
 
-}
-
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.options_menu, menu);
-
-        SearchManager searchManager =
-                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView =
-                (SearchView) menu.findItem(R.id.search).getActionView();
-        searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(getComponentName()));
-        System.out.println("Option menu created");
-        return true;
     }
-}
 
+
+
+
+
+
+
+
+}
