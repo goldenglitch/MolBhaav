@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ecommerce.molbhaav.Controller.IApi;
@@ -26,6 +27,7 @@ public class User extends AppCompatActivity {
     ImageView i1,i2;
     Button btn,ok;
     String pass;
+    TextView t1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +35,7 @@ public class User extends AppCompatActivity {
         ed1=findViewById(R.id.editText);
         ed2=findViewById(R.id.editText2);
         ed3=findViewById(R.id.editText3);
+        t1=findViewById(R.id.name);
         btn=findViewById(R.id.button2);
         ok=findViewById(R.id.button3);
 
@@ -60,6 +63,7 @@ public class User extends AppCompatActivity {
                 pass=response.body().getPassword();
 
                 ed1.setText(name);
+                t1.setText(name);
                 ed2.setText(email);
                 ed3.setText(address);
                 ed1.setEnabled(false);
