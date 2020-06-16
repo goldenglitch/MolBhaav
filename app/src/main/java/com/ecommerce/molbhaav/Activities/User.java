@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ecommerce.molbhaav.Controller.IApi;
@@ -23,6 +24,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class User extends AppCompatActivity {
     EditText ed1,ed2,ed3;
+    TextView t1;
     ImageView i1,i2;
     Button btn,ok;
     String pass;
@@ -33,6 +35,7 @@ public class User extends AppCompatActivity {
         ed1=findViewById(R.id.editText);
         ed2=findViewById(R.id.editText2);
         ed3=findViewById(R.id.editText3);
+        t1=findViewById(R.id.name);
         btn=findViewById(R.id.button2);
         ok=findViewById(R.id.button3);
 
@@ -44,7 +47,7 @@ public class User extends AppCompatActivity {
         SharedPreferences sharedPreferences= getSharedPreferences("package com.example.projectfinal;", Context.MODE_PRIVATE);
         final int id= sharedPreferences.getInt("user",0);
         //final String pass= sharedPreferences.getString("pass","");
-       // Toast.makeText(this, ""+sharedPreferences.getInt("user",0), Toast.LENGTH_SHORT).show();
+        // Toast.makeText(this, ""+sharedPreferences.getInt("user",0), Toast.LENGTH_SHORT).show();
         OkHttpClient client = new OkHttpClient.Builder().build();
 
         final Retrofit retrofit= new Retrofit.Builder().baseUrl("http://allstore.herokuapp.com")
@@ -54,12 +57,13 @@ public class User extends AppCompatActivity {
         iApi.getuser(id).enqueue(new Callback<SignInResponse>() {
             @Override
             public void onResponse(Call<SignInResponse> call, Response<SignInResponse> response) {
-               String name= response.body().getName();
+                String name= response.body().getName();
                 String email = response.body().getEmailId();
                 String address= response.body().getAddress();
                 pass=response.body().getPassword();
 
                 ed1.setText(name);
+                t1.setText(name);
                 ed2.setText(email);
                 ed3.setText(address);
                 ed1.setEnabled(false);
@@ -88,6 +92,10 @@ public class User extends AppCompatActivity {
                 ok.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        ed1.setEnabled(false);
+                        ed2.setEnabled(false);
+                        ed3.setEnabled(false);
+
 
                         OkHttpClient client = new OkHttpClient.Builder().build();
 
@@ -95,12 +103,14 @@ public class User extends AppCompatActivity {
                                 .addConverterFactory(GsonConverterFactory.create())
                                 .client(client).build();
                         IApi iApi = retrofit.create(IApi.class);
+                        t1.setText(ed1.getText().toString());
                         SignInResponse signInResponse= new SignInResponse();
                         signInResponse.setAddress(ed3.getText().toString());
                         signInResponse.setEmailId(ed2.getText().toString());
                         signInResponse.setName(ed1.getText().toString());
                         signInResponse.setPassword(pass);
                         signInResponse.setUserId(id);
+
 
 
                         //Toast.makeText(Registration.this, ""+signInRequest.getName(), Toast.LENGTH_SHORT).show();
@@ -137,8 +147,10 @@ public class User extends AppCompatActivity {
             }
         });
 
-        }
-
-
     }
+
+
+
+
+}
 

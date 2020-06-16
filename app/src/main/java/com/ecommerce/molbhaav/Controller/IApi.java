@@ -28,7 +28,10 @@ import retrofit2.http.Query;
 public interface IApi {
 
 
-
+    @GET("users/profile/{userId}")
+    public Call<SignInResponse> getuser(@Path("userId") int userId);
+    @PUT("/users/editProfile")
+    public Call<SignInResponse> edit(@Body SignInResponse signInResponse);
 
     @POST("/users/signIn")
     public Call<SignInResponse> sign(@Body SignInRequest signInRequest);
@@ -47,9 +50,4 @@ public interface IApi {
 
     @GET("/product/query")
     public Call<List<ProductDetailPriceAndCount>> searchProductsResult(@Query("queryText") String searchText);
-
-
-//    @GET("config.json")
-//    public Call<Object>
-
 }
